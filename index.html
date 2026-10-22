@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'">
+<title>Sapiaverse</title>
+<meta name="description" content="EXP-001: an offline replay of the recorded 21-day CitySim society.">
+<link rel="icon" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a.8.8 0 0 0 1.2.7l10.2-6.5a.8.8 0 0 0 0-1.4L9.2 4.8A.8.8 0 0 0 8 5.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6.5" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="13.5" y="5" width="4" height="14" rx="1" fill="currentColor"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M11 7 6 12l5 5M18 7l-5 5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-forward" viewBox="0 0 24 24"><path d="m13 7 5 5-5 5M6 7l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-fit" viewBox="0 0 24 24"><path d="M5 9V5h4M15 5h4v4M19 15v4h-4M9 19H5v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-follow" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 2.5V5M12 19v2.5M2.5 12H5M19 12h2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m15 15 4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-talk" viewBox="0 0 24 24"><path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v6a2.5 2.5 0 0 1-2.5 2.5H11l-4 3.5V15h0A2.5 2.5 0 0 1 5 12.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header class="bar">
+  <div class="brand">
+    <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" class="logo-tile"/><path d="M7 21.5 14 9l5 8 3-4 4 8.5" class="logo-road"/><circle cx="19" cy="17" r="3.2" class="logo-dot"/></svg>
+    <h1>Sapiaverse</h1>
+  </div>
+  <p class="study"><span>EXP-001</span><span>50 synthetic residents</span><span>1–21 April 2024</span><span>Chicago</span></p>
+  <div class="bar-actions">
+    <button id="themeToggle" class="icon-btn" type="button" aria-label="Use dark theme" title="Theme"><svg class="i"><use href="#i-moon"/></svg></button>
+    <button id="aboutButton" class="text-btn" type="button">About the records</button>
+  </div>
+</header>
+
+<main id="app" aria-busy="true">
+  <aside class="roster" aria-label="Residents">
+    <div class="roster-head">
+      <h2>Residents</h2>
+      <label class="field field-search"><svg class="i"><use href="#i-search"/></svg><span class="sr-only">Find a resident</span><input id="agentSearch" type="search" placeholder="Find a resident" autocomplete="off"></label>
+    </div>
+    <div id="agentList" class="agent-list"></div>
+    <div id="rosterSplit" class="splitter splitter-roster" role="separator" aria-orientation="vertical" aria-controls="agentList" aria-label="Resize the resident list" title="Drag to resize · double-click to reset" tabindex="0"></div>
+  </aside>
+
+  <section class="stage" aria-label="Map and playback">
+    <div class="map-wrap" id="mapWrap">
+      <canvas id="map" tabindex="0" aria-label="Map of resident locations. Drag or use arrow keys to pan, scroll or plus and minus to zoom, click a dot to select a resident."></canvas>
+      <div id="mapStatus" class="map-status">Loading the city…</div>
+      <div id="mapTip" class="map-tip" hidden></div>
+      <div class="map-tools" id="mapTools">
+        <button id="zoomIn" class="tool" type="button" aria-label="Zoom in" title="Zoom in"><svg class="i"><use href="#i-plus"/></svg></button>
+        <button id="zoomOut" class="tool" type="button" aria-label="Zoom out" title="Zoom out"><svg class="i"><use href="#i-minus"/></svg></button>
+        <button id="fitMap" class="tool" type="button" aria-label="Show the whole city" title="Whole city"><svg class="i"><use href="#i-fit"/></svg></button>
+        <button id="follow" class="tool" type="button" aria-pressed="false" aria-label="Follow the selected resident" title="Follow resident (F)"><svg class="i"><use href="#i-follow"/></svg></button>
+      </div>
+      <div class="legend" id="legend" aria-label="Map key">
+        <span><i class="sw g-sleep"></i>Sleep</span>
+        <span><i class="sw g-routine"></i>Routine</span>
+        <span><i class="sw g-work"></i>Work &amp; study</span>
+        <span><i class="sw g-out"></i>Out &amp; social</span>
+        <span><i class="sw g-travel"></i>Travel</span>
+        <span><i class="sw g-unknown"></i>No record</span>
+        <span class="legend-trip"><i class="trip-line"></i>Trip, straight line between logged endpoints</span>
+      </div>
+      <p class="map-credit">Roads © OpenStreetMap contributors · ODbL</p>
+    </div>
+
+    <section class="dock" aria-label="Playback">
+      <div class="dock-top">
+        <div class="transport">
+          <button id="backStep" class="icon-btn" type="button" aria-label="Back 15 minutes" title="Back 15 min (←)"><svg class="i"><use href="#i-back"/></svg></button>
+          <button id="play" class="play" type="button" aria-label="Play" title="Play (Space)"><svg class="i"><use href="#i-play"/></svg></button>
+          <button id="forwardStep" class="icon-btn" type="button" aria-label="Forward 15 minutes" title="Forward 15 min (→)"><svg class="i"><use href="#i-forward"/></svg></button>
+        </div>
+        <div class="clock">
+          <span id="clock" class="clock-time">08:00</span>
+          <span class="clock-date"><span id="clockDate">Monday 1 April</span><span id="clockDay" class="clock-day">Day 1 of 21</span></span>
+        </div>
+        <div class="speed" role="group" aria-label="Playback speed">
+          <button type="button" data-speed="10" aria-pressed="false" title="10 simulated minutes per second">10 min/s</button>
+          <button type="button" data-speed="60" aria-pressed="true" title="1 simulated hour per second">1 h/s</button>
+          <button type="button" data-speed="360" aria-pressed="false" title="6 simulated hours per second">6 h/s</button>
+        </div>
+      </div>
+
+      <div class="ribbon" id="ribbon">
+        <canvas id="ribbonCanvas" aria-hidden="true"></canvas>
+        <div class="ribbon-future" aria-hidden="true"></div>
+        <input id="timeline" type="range" min="0" max="1439" step="1" value="480" aria-label="Time of day">
+        <div class="playhead" aria-hidden="true"></div>
+        <div id="ribbonTip" class="ribbon-tip" hidden></div>
+      </div>
+      <div class="hours" aria-hidden="true"><span class="h0">00</span><span class="h1">03</span><span class="h2">06</span><span class="h3">09</span><span class="h4">12</span><span class="h5">15</span><span class="h6">18</span><span class="h7">21</span><span class="h8">24</span></div>
+
+      <div class="days">
+        <button id="prevDay" class="icon-btn" type="button" aria-label="Previous day" title="Previous day ([)"><svg class="i"><use href="#i-prev"/></svg></button>
+        <div id="dayStrip" class="day-strip" role="group" aria-label="Day of the run"></div>
+        <button id="nextDay" class="icon-btn" type="button" aria-label="Next day" title="Next day (])"><svg class="i"><use href="#i-next"/></svg></button>
+      </div>
+    </section>
+  </section>
+
+  <aside class="inspector" aria-label="Selected resident">
+    <div id="panelSplit" class="splitter splitter-panel" role="separator" aria-orientation="vertical" aria-controls="eventFeed" aria-label="Resize the record panel" title="Drag to resize · double-click to reset" tabindex="0"></div>
+    <header class="who">
+      <div class="who-line"><h2 id="residentTitle">Resident</h2><span id="agentId" class="agent-id"></span></div>
+      <p id="residentSummary" class="who-stats">Loading saved records…</p>
+    </header>
+    <section class="now" aria-label="At the playhead">
+      <div class="now-head"><i id="nowSwatch" class="sw sw-lg g-unknown"></i><div class="now-text"><h3 id="nowActivity">—</h3><p id="nowPlace" class="now-place"></p></div><span id="nowSpan" class="now-span"></span></div>
+      <p id="nowDetail" class="now-detail"></p>
+      <div id="feeling" class="feeling is-missing"><div class="feeling-text"><p id="feelingLine" class="feeling-line">—</p><p id="feelingWhen" class="feeling-when"></p></div><div id="needsBars" class="needs"></div></div>
+    </section>
+    <div class="filters">
+      <label class="field field-select"><span class="sr-only">Record type</span>
+        <select id="eventKind">
+          <option value="all">All records</option>
+          <option value="activity">Actions</option>
+          <option value="trip">Movements</option>
+          <option value="conversation">Conversations</option>
+          <option value="reflection">Reflections</option>
+          <option value="decision">Decisions</option>
+          <option value="needs">Needs &amp; feelings</option>
+          <option value="appraisal">Appraisals</option>
+          <option value="plan">Plans</option>
+          <option value="goal">Goals</option>
+          <option value="event">Events</option>
+        </select><svg class="i"><use href="#i-down"/></svg></label>
+      <label class="field field-search"><svg class="i"><use href="#i-search"/></svg><span class="sr-only">Search this resident’s records</span><input id="eventSearch" type="search" placeholder="Search records" autocomplete="off"></label>
+    </div>
+    <div class="feed-head">
+      <span id="feedLabel" class="feed-label">Records</span><span id="eventCount" class="feed-count"></span>
+      <div class="toggles">
+        <label class="check"><input id="allDays" type="checkbox"><span>All 21 days</span></label>
+        <label class="check"><input id="pastOnly" type="checkbox"><span>Hide later records</span></label>
+      </div>
+    </div>
+    <div class="feed-wrap">
+      <div id="eventFeed" class="feed" aria-label="Saved records"></div>
+      <button id="backToNow" class="back-now" type="button" hidden>Back to the playhead</button>
+    </div>
+    <p id="loadStatus" class="status" role="status">Loading saved data…</p>
+  </aside>
+</main>
+
+<dialog id="about" aria-labelledby="aboutTitle">
+  <button id="closeAbout" class="icon-btn dialog-close" type="button" aria-label="Close"><svg class="i"><use href="#i-close"/></svg></button>
+  <h2 id="aboutTitle">About these records</h2>
+  <p class="lede">A replay of the 50 synthetic residents of EXP-001 over 1–21 April 2024, read from saved logs. Pick a resident, pick a day, then play or drag along their day.</p>
+  <h3>What you are looking at</h3>
+  <ul>
+    <li>Playback reads saved logs. It makes no model calls and does not rerun CitySim.</li>
+    <li>Locations, lives and relationships are simulation assumptions, not observed human histories.</li>
+    <li>Trip lines are straight segments between logged departure and arrival points, not GPS traces or street routes.</li>
+    <li>Reflections and reasons are explicit model outputs, not hidden internal reasoning. Plans describe intent; actions describe what was executed.</li>
+    <li>Gaps between activity records stay unknown; the map then shows the last known location as a hollow dot. Events are assigned to residents only when their recorded scope names them.</li>
+    <li>Records after the playhead are faded. “Hide later records” removes them.</li>
+    <li>Map colours group the 19 native activity labels into five classes for legibility; the record cards keep the original label.</li>
+    <li>The saved needs log keeps only the first 40 characters of each emotion. About a third reach that limit; they end in “…” here.</li>
+  </ul>
+  <h3>Keyboard</h3>
+  <dl class="keys">
+    <div><dt><kbd>Space</kbd></dt><dd>Play or pause</dd></div>
+    <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>15 minutes back or forward (with <kbd>Shift</kbd>: one hour)</dd></div>
+    <div><dt><kbd>[</kbd> <kbd>]</kbd></dt><dd>Previous or next day</dd></div>
+    <div><dt><kbd>F</kbd></dt><dd>Follow the selected resident</dd></div>
+    <div><dt><kbd>+</kbd> <kbd>−</kbd></dt><dd>Zoom the map (arrow keys pan while the map has focus)</dd></div>
+  </dl>
+  <p id="provenance" class="fine"></p>
+  <p id="performanceNote" class="fine"></p>
+</dialog>
+<script type="module" src="app.js"></script>
+</body>
+</html>
